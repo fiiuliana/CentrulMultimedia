@@ -13,7 +13,7 @@ export function getApiUrl() {
 }
 
 const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }.
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
   { provide: 'API_URL', useFactory: getApiUrl, deps: []}
 ];
 
