@@ -67,7 +67,7 @@ namespace CentrulMultimedia.Controllers
                 return NotFound();
             }
 
-            return film;
+            return filmViewModel;
         }
 
         // PUT: api/Films/5
