@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Film } from '../film.model';
+import { FilmsService } from '../films.service';
 
 @Component({
   selector: 'app-list-films',
@@ -11,12 +12,15 @@ export class FilmsListComponent {
 
   public films: Film[];
 
-  constructor(http: HttpClient, @Inject('API_URL') apiUrl: string) {
-    http.get<Film[]>(apiUrl + 'films').subscribe(result => {
-      this.films = result;
-    }, error => console.error(error));
+  constructor(private filmsService: FilmsService) {
+   
   }
 
+  getFilms() {
+    this.filmsService.getFilms().subscribe(f => this.films = f);
+      }
+
   ngOnInit() {
+    this.getFilms();
   }
 }
