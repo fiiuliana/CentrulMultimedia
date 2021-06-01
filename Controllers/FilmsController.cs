@@ -16,9 +16,17 @@ namespace CentrulMultimedia.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        
         public FilmsController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        [Route("filter/{minYearOfRelease}")]
+        public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease) 
+        {
+            return _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToList();
         }
 
         // GET: api/Films
