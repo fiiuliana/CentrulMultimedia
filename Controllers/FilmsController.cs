@@ -23,9 +23,13 @@ namespace CentrulMultimedia.Controllers
 
         // GET: api/Films
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
+        public async Task<ActionResult<IEnumerable<Film>>> GetFilms(int? minYearOfRelease) 
         {
+            if (minYearOfRelease == null) 
+            { 
             return await _context.Films.ToListAsync();
+            }
+            return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToListAsync();
         }
 
         // GET: api/Films/5
