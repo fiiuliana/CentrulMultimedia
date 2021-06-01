@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CentrulMultimedia.Data;
 using CentrulMultimedia.Models;
+using CentrulMultimedia.ViewModels;
 
 namespace CentrulMultimedia.Controllers
 {
@@ -44,9 +45,22 @@ namespace CentrulMultimedia.Controllers
 
         // GET: api/Films/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Film>> GetFilm(int id)
+        public async Task<ActionResult<FilmViewModel>> GetFilm(int id)
         {
             var film = await _context.Films.FindAsync(id);
+            var filmViewModel =  new FilmViewModel
+            {
+            Id = film.Id,
+            Title = film.Title,
+            Description = film.Description,
+            Genre = film.Genre,
+            LengthInMinutes = film.LengthInMinutes,
+            YearOfRelease = film.YearOfRelease,
+            Director = film.Director,
+            DateTime = film.DateTime,
+            Rating = film.Rating,
+            Watched = film.Watched
+            };
 
             if (film == null)
             {
