@@ -22,7 +22,11 @@ namespace CentrulMultimedia.Controllers
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Returns films depending of the Year of the release
+        /// </summary>
+        /// <param name="minYearOfRelease">The year of the release</param>
+        /// <returns>List of films released in the year .= year of release </returns>
         [HttpGet]
         [Route("filter/{minYearOfRelease}")]
         public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease) 
