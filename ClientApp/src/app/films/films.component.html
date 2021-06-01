@@ -2,9 +2,9 @@
 
 <p>This component demonstrates fetching data from Films.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<p *ngIf="!films"><em>Loading...</em></p>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="films">
   <thead>
     <tr>
       <th>Id</th>
@@ -20,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
+    <tr *ngFor="let film of films">
       <td>{{ film.id }}</td>
       <td>{{ film.title }}</td>
       <td>{{ film.description }}</td>
