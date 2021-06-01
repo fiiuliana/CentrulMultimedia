@@ -26,7 +26,9 @@ namespace CentrulMultimedia.Controllers
         [Route("filter/{minYearOfRelease}")]
         public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease) 
         {
-            return _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToList();
+            var query = _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease);
+            Console.WriteLine(query.ToQueryString());            
+            return query.ToList();
         }
 
         // GET: api/Films
