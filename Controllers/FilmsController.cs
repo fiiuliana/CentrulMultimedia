@@ -22,6 +22,7 @@ namespace CentrulMultimedia.Controllers
         {
             _context = context;
         }
+
         /// <summary>
         /// Returns films depending of the Year of the release
         /// </summary>
@@ -36,6 +37,7 @@ namespace CentrulMultimedia.Controllers
             return query.ToList();
         }
 
+       
         // GET: api/Films
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms(int? minYearOfRelease) 
@@ -47,6 +49,11 @@ namespace CentrulMultimedia.Controllers
             return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToListAsync();
         }
 
+        /// <summary>
+        /// Returns all the films from the database
+        /// </summary>
+        /// <param name="id">The id of the film</param>
+        /// <returns>List of films</returns>
         // GET: api/Films/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FilmViewModel>> GetFilm(int id)
@@ -73,7 +80,12 @@ namespace CentrulMultimedia.Controllers
 
             return filmViewModel;
         }
-
+        /// <summary>
+        /// Updates the films
+        /// </summary>
+        /// <param name="id">The id of the film</param>
+        /// <param name="film">The name of the film</param>
+        /// <returns>Return is empty for now</returns>
         // PUT: api/Films/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -104,7 +116,11 @@ namespace CentrulMultimedia.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Adds a film to the database
+        /// </summary>
+        /// <param name="film">The complete infomation about the film</param>
+        /// <returns>No return statement</returns>
         // POST: api/Films
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
