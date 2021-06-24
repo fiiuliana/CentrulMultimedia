@@ -62,7 +62,8 @@ namespace CentrulMultimedia.Controllers
                 .Select(c => new
                 {
                     Film = c.Film.Title,
-                    Comment = c.Content
+                    Comment = c.Content,
+      
                 });
             ; 
             _logger.LogInformation(query.ToQueryString());
