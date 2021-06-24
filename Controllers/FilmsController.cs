@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CentrulMultimedia.Data;
 using CentrulMultimedia.Models;
 using CentrulMultimedia.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace CentrulMultimedia.Controllers
 {
@@ -16,24 +17,28 @@ namespace CentrulMultimedia.Controllers
     public class FilmsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<FilmsController>_logger;
 
         
-        public FilmsController(ApplicationDbContext context)
+        public FilmsController(ApplicationDbContext context, ILogger<FilmsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
         /// Returns films depending of the Year of the release
         /// </summary>
         /// <param name="minYearOfRelease">The year of the release</param>
-        /// <returns>List of films released in the year .= year of release </returns>
+        /// <returns>List of films released in the year = year of release </returns>
         [HttpGet]
         [Route("filter/{minYearOfRelease}")]
         public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease) 
         {
             var query = _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease);
-            Console.WriteLine(query.ToQueryString());            
+            //after adding logger
+            _logger.LogInformation(query.ToQueryString());
+            //Console.WriteLine(query.ToQueryString());            
             return query.ToList();
         }
 
@@ -47,6 +52,42 @@ namespace CentrulMultimedia.Controllers
             return await _context.Films.ToListAsync();
             }
             return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToListAsync();
+        }
+
+        // GET: api/Films/Comments
+        [HttpGet("{id}/Comments")]
+        public ActionResult<IEnumerable<Object>> GetCommentsForFilm(int id) 
+        {
+            var query = _context.Comments.Where(c => c.Film.Id == id).Include(c => c.Film)     //.Include(c => c.Film).ToList();
+                .Select(c => new
+                {
+                    Film = c.Film.Title,
+                    Comment = c.Content
+                });
+            ; 
+            _logger.LogInformation(query.ToQueryString());
+            return query.ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
+        // POST: api/Films/Comments
+        [HttpPost("{id}/Comments")]
+        public IActionResult PostCommentsForFilm(int id, Comment comment)
+        {
+            comment.Film = _context.Films.Find(id);
+            if (comment.Film == null) {
+                return NotFound();
+            }
+
+            _context.Comments.Add(comment);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         /// <summary>
@@ -80,6 +121,7 @@ namespace CentrulMultimedia.Controllers
 
             return filmViewModel;
         }
+
         /// <summary>
         /// Updates the films
         /// </summary>
