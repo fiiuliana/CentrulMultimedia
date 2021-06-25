@@ -115,7 +115,7 @@ namespace CentrulMultimedia.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Adds a coment to a film
         /// </summary>
         /// <param name="id"></param>
         /// <param name="comment"></param>
@@ -124,13 +124,22 @@ namespace CentrulMultimedia.Controllers
         [HttpPost("{id}/Comments")]
         public IActionResult PostCommentsForFilm(int id, Comment comment)
         {
-            comment.Film = _context.Films.Find(id);
-            if (comment.Film == null) {
+            var film = _context.Films.Where(f => f.Id == id).Include(f => f.Comments).FirstOrDefault();
+            if (film == null)
+            {
                 return NotFound();
             }
-
-            _context.Comments.Add(comment);
+            film.Comments.Add(comment);
+            _context.Entry(film).State = EntityState.Modified;
             _context.SaveChanges();
+
+            //               comment.Film = _context.Films.Find(id);
+            //              if (comment.Film == null) {
+            //                  return NotFound();
+            //              }
+
+            //              _context.Comments.Add(comment);
+            //              _context.SaveChanges();
 
             return Ok();
         }
