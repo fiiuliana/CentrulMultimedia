@@ -107,6 +107,10 @@ namespace CentrulMultimedia.Controllers
             var query_v3 = _context.Films.Where(f => f.Id == id).Include(f => f.Comments)
                 .Select(f => _mapper.Map<FilmsWithCommentsViewModel>(f));
 
+            var queryForCommentFilmId = _context.Comments;
+
+            _logger.LogInformation(queryForCommentFilmId.ToList()[0].FilmId.ToString());
+            //_logger.LogInformation(queryForCommentFilmId.ToList()[0].Film.ToString());  - crapa fiindca nu e pus Include
 
             _logger.LogInformation(query_v1.ToQueryString());
             _logger.LogInformation(query_v2.ToQueryString());

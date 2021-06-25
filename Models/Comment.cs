@@ -11,6 +11,9 @@ namespace CentrulMultimedia.Models
         public string Content { get; set; }
         public DateTime DateTime { get; set; }
         public int Stars { get; set; }
+
+
+        public int FilmId { get; set; }
         public Film Film { get; set; } 
 
     }
