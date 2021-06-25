@@ -19,7 +19,7 @@ namespace CentrulMultimedia.ViewModels
         public int Rating { get; set; }
         public Boolean Watched { get; set; }
 
-        public List<CommentViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
 
 
     }

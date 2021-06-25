@@ -30,7 +30,7 @@ namespace CentrulMultimedia.Models
 
         public Boolean Watched { get; set; }
 
-        public List<Comment> Coments { get; set; }
+        public List<Comment> Comments { get; set; }
 
     }
 }

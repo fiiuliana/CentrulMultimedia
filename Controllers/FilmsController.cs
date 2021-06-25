@@ -56,18 +56,56 @@ namespace CentrulMultimedia.Controllers
 
         // GET: api/Films/Comments
         [HttpGet("{id}/Comments")]
-        public ActionResult<IEnumerable<Object>> GetCommentsForFilm(int id) 
+        public ActionResult<IEnumerable<FilmsWithCommentsViewModel>> GetCommentsForFilm(int id) 
         {
-            var query = _context.Comments.Where(c => c.Film.Id == id).Include(c => c.Film)     //.Include(c => c.Film).ToList();
-                .Select(c => new
+            var query_v1 = _context.Comments.Where(c => c.Film.Id == id).Include(c => c.Film)     //.Include(c => c.Film).ToList();
+                .Select(c => new FilmsWithCommentsViewModel
                 {
-                    Film = c.Film.Title,
-                    Comment = c.Content,
-      
+                    Id = c.Film.Id,
+                    Title = c.Film.Title,
+                    Description = c.Film.Description,
+                    Genre = c.Film.Genre,
+                    LengthInMinutes = c.Film.LengthInMinutes,
+                    YearOfRelease = c.Film.YearOfRelease,
+                    Director = c.Film.Director,
+                    DateTime = c.Film.DateTime,
+                    Rating = c.Film.Rating,
+                    Watched = c.Film.Watched,
+                    Comments = c.Film.Comments.Select(pc => new CommentViewModel
+                    {
+                    Id = pc.Id,                    
+                    Content = pc.Content,          
+                    DateTime = pc.DateTime,
+                    Stars = pc.Stars,
+                    })
                 });
-            ; 
-            _logger.LogInformation(query.ToQueryString());
-            return query.ToList();
+
+            var query_v2 = _context.Films.Where(f => f.Id == id).Include(f => f.Comments).Select(f => new FilmsWithCommentsViewModel
+            {
+                Id = f.Id,
+                Title = f.Title,
+                Description = f.Description,
+                Genre = f.Genre,
+                LengthInMinutes = f.LengthInMinutes,
+                YearOfRelease = f.YearOfRelease,
+                Director = f.Director,
+                DateTime = f.DateTime,
+                Rating = f.Rating,
+                Watched = f.Watched,
+                Comments = f.Comments.Select(pc => new CommentViewModel
+                {
+                    Id = pc.Id,
+                    Content = pc.Content,
+                    DateTime = pc.DateTime,
+                    Stars = pc.Stars,
+                })
+            });
+
+      
+
+            _logger.LogInformation(query_v1.ToQueryString());
+           // return query_v1.ToList();
+            return query_v2.ToList();
         }
 
         /// <summary>
