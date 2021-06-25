@@ -109,8 +109,8 @@ namespace CentrulMultimedia.Controllers
 
 
             _logger.LogInformation(query_v1.ToQueryString());
-           // return query_v1.ToList();
-           // return query_v2.ToList();
+            _logger.LogInformation(query_v2.ToQueryString());
+            _logger.LogInformation(query_v3.ToQueryString());           
             return query_v3.ToList();
         }
 
