@@ -9,6 +9,7 @@ using CentrulMultimedia.Data;
 using CentrulMultimedia.Models;
 using CentrulMultimedia.ViewModels;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace CentrulMultimedia.Controllers
 {
@@ -18,12 +19,14 @@ namespace CentrulMultimedia.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<FilmsController>_logger;
+        private readonly IMapper _mapper;
 
         
-        public FilmsController(ApplicationDbContext context, ILogger<FilmsController> logger)
+        public FilmsController(ApplicationDbContext context, ILogger<FilmsController> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -139,19 +142,24 @@ namespace CentrulMultimedia.Controllers
         public async Task<ActionResult<FilmViewModel>> GetFilm(int id)
         {
             var film = await _context.Films.FindAsync(id);
-            var filmViewModel =  new FilmViewModel
-            {
-            Id = film.Id,
-            Title = film.Title,
-            Description = film.Description,
-            Genre = film.Genre,
-            LengthInMinutes = film.LengthInMinutes,
-            YearOfRelease = film.YearOfRelease,
-            Director = film.Director,
-            DateTime = film.DateTime,
-            Rating = film.Rating,
-            Watched = film.Watched
-            };
+
+            //Deleted after adding Automapper
+            //      var filmViewModel =  new FilmViewModel
+            //      {
+            //      Id = film.Id,
+            //      Title = film.Title,
+            //      Description = film.Description,
+            //      Genre = film.Genre,
+            //      LengthInMinutes = film.LengthInMinutes,
+            //      YearOfRelease = film.YearOfRelease,
+            //      Director = film.Director,
+            //      DateTime = film.DateTime,
+            //      Rating = film.Rating,
+            //      Watched = film.Watched
+            //      };
+
+            //Automapper
+            var filmViewModel = _mapper.Map<FilmViewModel>(film);
 
             if (film == null)
             {
