@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CentrulMultimedia.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace CentrulMultimedia.ViewModels
         public string Title { get; set; }        
         public string Description { get; set; }
         public String Genre { get; set; }
+        public FilmType FilmType { get; set; }
         public int LengthInMinutes { get; set; }
         public int YearOfRelease { get; set; }
         public string Director { get; set; }

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace CentrulMultimedia.Models
 {
-
+    public enum FilmType {
+        Action,
+        Comedy, 
+        Horror, 
+        Thriller 
+    };
     public class Film
     {
         public int Id { get; set; }
@@ -18,6 +24,8 @@ namespace CentrulMultimedia.Models
         public string Description { get; set; }
 
         public String Genre { get; set; }
+
+        public FilmType FilmType { get; set; }
         public int LengthInMinutes { get; set; }
         public int YearOfRelease { get; set; }
 
