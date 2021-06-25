@@ -104,11 +104,14 @@ namespace CentrulMultimedia.Controllers
                 })
             });
 
-      
+            var query_v3 = _context.Films.Where(f => f.Id == id).Include(f => f.Comments)
+                .Select(f => _mapper.Map<FilmsWithCommentsViewModel>(f));
+
 
             _logger.LogInformation(query_v1.ToQueryString());
            // return query_v1.ToList();
-            return query_v2.ToList();
+           // return query_v2.ToList();
+            return query_v3.ToList();
         }
 
         /// <summary>

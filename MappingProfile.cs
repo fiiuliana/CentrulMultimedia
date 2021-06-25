@@ -12,8 +12,9 @@ namespace CentrulMultimedia
     {
         public MappingProfile()
         {
-            CreateMap<Film, FilmViewModel>();        
-
+            CreateMap<Film, FilmViewModel>();
+            CreateMap<Comment, CommentViewModel>();
+            CreateMap<Film, FilmsWithCommentsViewModel>();
         }
 
     }
