@@ -45,18 +45,31 @@ namespace CentrulMultimedia.Controllers
             //Console.WriteLine(query.ToQueryString());            
             return query.ToList();
         }
-
-
+        /// <summary>
+        /// Filters depeonding on the date in which the film was added
+        /// </summary>
+        /// <param name="from">Date added - from</param>
+        /// <param name="to">Date added - to</param>
+        /// <returns>A list of films between the designed interval , descending after year of release</returns>
         // GET: api/Films
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Film>>> GetFilms(int? minYearOfRelease) 
+        public async Task<ActionResult<IEnumerable<Film>>> GetFilms(
+            [FromQuery] DateTimeOffset? from = null,
+            [FromQuery] DateTimeOffset? to = null) 
         {
-            if (minYearOfRelease == null) 
-            { 
-            return await _context.Films.ToListAsync();
+            IQueryable<Film> result = _context.Films;
+            if (from != null)
+            {
+                result = result.Where(f => from <= f.DateTime);
             }
-            return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease)
-                .OrderByDescending(f => f.YearOfRelease).ToListAsync();
+            if (to != null)
+            {
+                result = result.Where(f => f.DateTime <= to);
+            }
+
+            var resultList = await result.OrderByDescending(f => f.YearOfRelease).ToListAsync();
+            return resultList;
+           
         }
 
 
