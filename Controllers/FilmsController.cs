@@ -29,6 +29,7 @@ namespace CentrulMultimedia.Controllers
             _mapper = mapper;
         }
 
+
         /// <summary>
         /// Returns films depending of the Year of the release
         /// </summary>
@@ -36,16 +37,16 @@ namespace CentrulMultimedia.Controllers
         /// <returns>List of films released in the year = year of release </returns>
         [HttpGet]
         [Route("filter/{minYearOfRelease}")]
-        public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease) 
+        public ActionResult<IEnumerable<Film>> FilterFilms(int minYearOfRelease)
         {
-            var query = _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease);
+            var query = _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).OrderByDescending(f => f.YearOfRelease);
             //after adding logger
             _logger.LogInformation(query.ToQueryString());
             //Console.WriteLine(query.ToQueryString());            
             return query.ToList();
         }
 
-       
+
         // GET: api/Films
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms(int? minYearOfRelease) 
@@ -54,8 +55,10 @@ namespace CentrulMultimedia.Controllers
             { 
             return await _context.Films.ToListAsync();
             }
-            return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease).ToListAsync();
+            return await _context.Films.Where(f => f.YearOfRelease >= minYearOfRelease)
+                .OrderByDescending(f => f.YearOfRelease).ToListAsync();
         }
+
 
         // GET: api/Films/Comments
         [HttpGet("{id}/Comments")]
