@@ -45,6 +45,8 @@ namespace CentrulMultimedia.Controllers
             //Console.WriteLine(query.ToQueryString());            
             return query.ToList();
         }
+
+
         /// <summary>
         /// Filters depeonding on the date in which the film was added
         /// </summary>
@@ -66,13 +68,17 @@ namespace CentrulMultimedia.Controllers
             {
                 result = result.Where(f => f.DateTime <= to);
             }
-
+            // in order to be able to debug 
             var resultList = await result.OrderByDescending(f => f.YearOfRelease).ToListAsync();
             return resultList;
            
         }
 
-
+        /// <summary>
+        /// Get the comments of the film
+        /// </summary>
+        /// <param name="id"> Id of the film</param>
+        /// <returns>The comment or comments</returns>
         // GET: api/Films/Comments
         [HttpGet("{id}/Comments")]
         public ActionResult<IEnumerable<FilmsWithCommentsViewModel>> GetCommentsForFilm(int id) 
@@ -137,9 +143,9 @@ namespace CentrulMultimedia.Controllers
         /// <summary>
         /// Adds a coment to a film
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="comment"></param>
-        /// <returns></returns>
+        /// <param name="id">The ID of the film</param>
+        /// <param name="comment">The comment</param>
+        /// <returns>OK</returns>
         // POST: api/Films/Comments
         [HttpPost("{id}/Comments")]
         public IActionResult PostCommentsForFilm(int id, Comment comment)
